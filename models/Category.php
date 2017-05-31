@@ -10,21 +10,19 @@ use Yii;
  * @property integer $id
  * @property string $title
  */
-class Category extends \yii\db\ActiveRecord
-{
+class Category extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'category';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['title'], 'string', 'max' => 255],
         ];
@@ -33,11 +31,14 @@ class Category extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'title' => 'Title',
         ];
+    }
+
+    public function getArticles() {
+        return $this->hasMany(Article::className(), ['category_id' => 'id'])->inverseOf('article');
     }
 }
