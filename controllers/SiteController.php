@@ -95,6 +95,15 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    public function actionView()
+    {
+        return $this->render('singlePost');
+    }
+
+    public function actionCategory()
+    {
+        return $this->render('category');
+    }
     /**
      * Displays contact page.
      *
