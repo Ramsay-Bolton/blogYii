@@ -6,6 +6,8 @@ use Yii;
 use app\models\ImageUpload;
 use app\models\Category;
 use app\models\Article;
+use app\models\Tag;
+use app\models\ArticleTag;
 use app\models\ArticleSearch;
 use yii\web\UploadedFile;
 use yii\web\Controller;
@@ -154,6 +156,21 @@ class ArticleController extends Controller {
                     'selectedCategory' => $selectedCategory,
                     'categories' => $categories
         ]);
+    }
+    
+    public function actionSetTags($id) {
+        $article = $this->findModel($id);
+        $selectedTags = $article->getSelectedTags();
+        $tags = ArrayHelper::map(Tag::find()->all(), 'id', 'title');
+        //var_dump($selectedTags);die;
+        
+        if(Yii::$app->request->isPost) {
+            $tags = Yii::$app->request->post('tags');
+            $article->saveTags($tags);
+            return $this->redirect(['view', 'id' => $article->id]);
+        }
+        
+        return $this->render('tag', ['selectedTags' => $selectedTags, 'tags' => $tags]);
     }
 
 }
